@@ -9,7 +9,7 @@ logoutput: /var/log/sockd.log
 errorlog: syslog
 user.privileged: root
 user.unprivileged: nobody
-internal: 127.0.0.1 port=8899
+internal: 0.0.0.0 port=8899
 external: tun0
 socksmethod: none
 clientmethod: none
@@ -25,4 +25,4 @@ EOL
 
 EXPOSE 8899
 
-CMD openvpn --config /etc/openvpn/client/client.ovpn && danted
+CMD service openvpn start && sleep 10 && danted

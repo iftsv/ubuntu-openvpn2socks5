@@ -1,2 +1,3 @@
 *.ovpn
 pass.txt
+client.conf
