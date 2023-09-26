@@ -12,3 +12,4 @@
 ```
 # docker run --device=/dev/net/tun -d --rm --mount type=bind,src=D:\docker\ubuntu-openvpn2socks5,target=/etc/openvpn/ -p 8899:8899 --cap-add=NET_ADMIN ubuntu-openvpn2socks5
 ```
+5. Setup your browser to connect via the SOCKS5 proxy using 127.0.0.1:8899
