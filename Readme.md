@@ -7,7 +7,7 @@ Install docker.io for your host OS.
 ### HowTo
 1. Clone this repo:
 ```
-# git clone ...
+# git clone https://github.com/iftsv/ubuntu-openvpn2socks5.git
 ```
 2. Provide the correct path to OpenVPN configuration file for the `volumes` flag in the `docker-compose.yml` file.
 3. Run Docker Compose for this service in detached mode. Setup your browser to connect via the SOCKS5 proxy using 127.0.0.1:8899
