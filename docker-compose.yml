@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  ubuntu-openvpn2socks5:
+    build: .
+    image: ubuntu-openvpn2socks5
+    container_name: ubuntu-openvpn2socks5
+    devices:
+      - /dev/net/tun
+    volumes:
+      - D:\docker\ubuntu-openvpn2socks5:/etc/openvpn/
+    ports:
+      - "127.0.0.1:8899:8899"
+    cap_add:
+      - NET_ADMIN

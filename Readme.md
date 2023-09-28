@@ -1,15 +1,16 @@
-#### HowTo
-1. Prepare client.conf file with OpenVPN client configuration. If OpenVPN server requires  user/passwrod authentication, put pass.txt file with these credentials.
-2. Clone this repo
+### About
+Sometimes you don't need to route all your traffic via OpenVPN connection on your host OS. You just want to have SOCKS5 proxy.
+This repo can help you to convert OpenVPN connection to SOCKS5 server using Docker. OpenVPN connection works inside Docker container, so your host OS is not affected.
+
+### Requirements
+Install docker.io for your host OS.
+### HowTo
+1. Clone this repo:
 ```
 # git clone ...
 ```
-3. Build image
+2. Provide the correct path to OpenVPN configuration file for the `volumes` flag in the `docker-compose.yml` file.
+3. Run Docker Compose for this service in detached mode. Setup your browser to connect via the SOCKS5 proxy using 127.0.0.1:8899
 ```
-# docker build -t ubuntu-openvpn2socks5 .
+# sudo docker-compose up -d.
 ```
-4. Run image. ATTENTION! Update the `src` path for the `--mount` flag according to your local path.
-```
-# docker run --device=/dev/net/tun -d --rm --mount type=bind,src=D:\docker\ubuntu-openvpn2socks5,target=/etc/openvpn/ -p 8899:8899 --cap-add=NET_ADMIN ubuntu-openvpn2socks5
-```
-5. Setup your browser to connect via the SOCKS5 proxy using 127.0.0.1:8899
