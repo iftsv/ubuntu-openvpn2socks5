@@ -9,7 +9,22 @@ Install docker.io for your host OS.
 ```
 # git clone https://github.com/iftsv/ubuntu-openvpn2socks5.git
 ```
-2. Put OpenVPN configuration file to the cloned repo directory into `client.conf` file
+2. OpenVPN configuration should be placed in the `client.conf` file and `pass.txt`. Example:
+```
+client
+dev tun
+proto udp
+remote example-vpn.org 8080
+auth-user-pass
+remote-cert-tls server
+nobind
+auth-user-pass /etc/openvpn/pass.txt
+<ca>
+-----BEGIN CERTIFICATE-----
+MIIB7DCCAXKgAwIBAgI ...
+-----END CERTIFICATE-----
+</ca>
+```
 3. Run Docker Compose for this service in detached mode. Setup your browser to connect via the SOCKS5 proxy using 127.0.0.1:8899
 ```
 # sudo docker-compose up -d
