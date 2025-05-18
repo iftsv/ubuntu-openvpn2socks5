@@ -1,0 +1,17 @@
+client
+dev tun
+proto udp
+remote example-server.com 8081
+auth-user-pass
+remote-cert-tls server
+nobind
+auth-user-pass /etc/openvpn/pass.txt
+<ca>
+-----BEGIN CERTIFICATE-----
+MIIB7DCCAXKgAwIBAgIRAImseuP2FHmCCeIk7Cfz2vQwCgYIKoZIzj0EAwMwHzEd
+...
+...
+...
+...
+-----END CERTIFICATE-----
+</ca>
