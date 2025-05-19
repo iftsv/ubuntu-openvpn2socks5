@@ -22,14 +22,17 @@ RUN echo "logoutput: /var/log/sockd.log" > /etc/danted.conf && \
     echo "client pass { from: 0.0.0.0/0 to: 0.0.0.0/0 }" >> /etc/danted.conf && \
     echo "socks pass {" >> /etc/danted.conf && \
     echo "  from: 0.0.0.0/0 to: 0.0.0.0/0" >> /etc/danted.conf && \
-    echo "  method: username" >> /etc/danted.conf && \
     echo "  log: connect disconnect error" >> /etc/danted.conf && \
     echo "}" >> /etc/danted.conf
 
-# start script
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# CMD runs at container startup — dynamic user creation happens here
+CMD /bin/sh -c "\
+    if ! id \"$PROXY_USER\" >/dev/null 2>&1; then \
+        echo \"[INFO] Creating proxy user: $PROXY_USER\"; \
+        useradd -m -s /bin/bash \"$PROXY_USER\" && \
+        echo \"$PROXY_USER:$PROXY_PASS\" | chpasswd; \
+    fi; \
+    openvpn --config /etc/openvpn/client.conf --auth-user-pass /etc/openvpn/pass.txt & \
+    sleep 15 && danted"
 
 EXPOSE 8899
-
-ENTRYPOINT ["/entrypoint.sh"]
