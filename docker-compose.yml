@@ -4,16 +4,14 @@ services:
   vpn-proxy:
     build: .
     container_name: vpn-proxy
+    network_mode: host  # Danted will be accessible from outside the Docker host machine.”
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
     devices:
       - /dev/net/tun
-    ports:
-      - "8899:8899"
     environment:
       - PROXY_USER=danted
       - PROXY_PASS=123secret
     volumes:
-      - ./entrypoint.sh:/entrypoint.sh
-      - ./your-openvpn-config:/etc/openvpn  # openvpn config path
+      - ./your-openvpn-config:/etc/openvpn
