@@ -4,7 +4,7 @@ services:
   vpn-proxy:
     build: .
     container_name: vpn-proxy
-    network_mode: host  # Danted will be accessible from outside the Docker host machine.”
+    network_mode: host  # Danted will be accessible from outside the Docker host machine. Do not forget to setup firewall
     restart: unless-stopped
     cap_add:
       - NET_ADMIN
