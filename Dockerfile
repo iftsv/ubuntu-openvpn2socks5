@@ -2,16 +2,16 @@ FROM ubuntu
 
 WORKDIR /
 
-# installation of required apps
+# install required packages
 RUN apt update && \
-    apt install -y nano openvpn iputils-ping net-tools curl dante-server && \
+    apt install -y nano openvpn iputils-ping net-tools curl dante-server iproute2 && \
     apt clean
 
-# environment variables for proxy username & password
 ENV PROXY_USER=proxyuser
 ENV PROXY_PASS=proxypass
+ENV HOST_SUBNET=192.168.1.0/24
 
-# openvpn & danted proxy configuration
+# danted config
 RUN echo "logoutput: /var/log/sockd.log" > /etc/danted.conf && \
     echo "user.privileged: root" >> /etc/danted.conf && \
     echo "user.unprivileged: nobody" >> /etc/danted.conf && \
@@ -25,14 +25,10 @@ RUN echo "logoutput: /var/log/sockd.log" > /etc/danted.conf && \
     echo "  log: connect disconnect error" >> /etc/danted.conf && \
     echo "}" >> /etc/danted.conf
 
-# CMD runs at container startup — dynamic user creation happens here
-CMD /bin/sh -c "\
-    if ! id \"$PROXY_USER\" >/dev/null 2>&1; then \
-        echo \"[INFO] Creating proxy user: $PROXY_USER\"; \
-        useradd -m -s /bin/bash \"$PROXY_USER\" && \
-        echo \"$PROXY_USER:$PROXY_PASS\" | chpasswd; \
-    fi; \
-    openvpn --config /etc/openvpn/client.conf --auth-user-pass /etc/openvpn/pass.txt & \
-    sleep 15 && danted"
+# copy and run entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+CMD ["/entrypoint.sh"]
 
 EXPOSE 8899

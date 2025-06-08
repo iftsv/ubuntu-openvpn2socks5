@@ -10,8 +10,8 @@ Install docker.io for your host OS.
 git clone https://github.com/iftsv/ubuntu-openvpn2socks5.git
 ```
 2. OpenVPN configuration should be placed in the `client.conf` file and `pass.txt` inside `your-openvpn-config` directory. See file examples inside.
-
-3. Run Docker Compose for this service in detached mode. Setup your browser to connect via the SOCKS5 proxy on IP:8899 using provided username/password from `docker-compose.yml` file.
+3. Set `PROXY_USER`/`PROXY_PASS`/`HOST_SUBNET` variables in the `docker-compose.yml`. `HOST_SUBNET` is IP address of local network for host machine with docker container.
+4. Run Docker Compose for this service in detached mode. Setup your browser to connect via the SOCKS5 proxy on IP:8899 using provided username/password from `docker-compose.yml` file.
 ```
 sudo docker-compose up -d --build
 ```
