@@ -15,3 +15,14 @@ git clone https://github.com/iftsv/ubuntu-openvpn2socks5.git
 ```
 sudo docker-compose up -d --build
 ```
+5. Since the Docker container running the Dante proxy server will be accessible from outside the Docker host machine, don’t forget to set up a firewall. Here’s an example using iptables:
+```
+# accept requests for specific network
+sudo iptables -I INPUT -p tcp -s 192.168.1.0/24 --dport 8899 -j ACCEPT
+
+# drop requests from other networks
+sudo iptables -A INPUT -p tcp --dport 8899 -j DROP
+
+# save persistent
+sudo netfilter-persistent save
+```
