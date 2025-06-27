@@ -7,10 +7,6 @@ RUN apt update && \
     apt install -y nano openvpn iputils-ping net-tools curl dante-server iproute2 && \
     apt clean
 
-ENV PROXY_USER=proxyuser
-ENV PROXY_PASS=proxypass
-ENV HOST_SUBNET=192.168.1.0/24
-
 # danted config
 RUN echo "logoutput: /var/log/sockd.log" > /etc/danted.conf && \
     echo "user.privileged: root" >> /etc/danted.conf && \
